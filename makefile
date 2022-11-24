@@ -1,6 +1,6 @@
 PNAME := Raytracer
 
-PCXXSRC := $(wildcard src/*.cpp)
+PCXXSRC := $(wildcard src/*.cpp src/*/*.cpp)
 
 PCXXOBJ := $(PCXXSRC:.cpp=.o)
 
