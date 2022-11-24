@@ -1,10 +1,10 @@
 PNAME := Raytracer
 
-PCXXSRC := $(wildcard src/*.cpp src/*/*.cpp)
+PCXXSRC := $(wildcard src/*.cpp src/*/*.cpp src/*/*/*.cpp src/*/*/*/*.cpp)
 
 PCXXOBJ := $(PCXXSRC:.cpp=.o)
 
-CXXFLAGS += -std=c++11 -O2 -g -Wall -Wpedantic
+CXXFLAGS += -std=c++17 -O2 -g -Wall -Wpedantic
 
 LDLIBS += 
 
