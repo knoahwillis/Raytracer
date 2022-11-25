@@ -1,11 +1,10 @@
 #include "../scene/Scene.hpp"
 
-
 // compute the reflection of a ray
 // parameters:
 // glm::vec3 ray -- ray that is reflecting off of an object
 // glm::vec3 norm -- norm of the ray that is reflecting and the object it is reflecting off of
-// return: 
+// return:
 // glm::vec3 -- reflected ray
 glm::vec3 reflectRay(glm::vec3 ray, glm::vec3 norm);
 
@@ -29,10 +28,10 @@ glm::vec2 sphereRayIntersection(glm::vec3 origin, glm::vec3 direction, Sphere s)
 // float t_max -- furthest distance that a sphere can be
 // return:
 // std::pair<Sphere, float> -- pair containing the closest sphere that a ray intersects with
-//                             and the distance it is from the ray origin 
+//                             and the distance it is from the ray origin
 std::pair<Sphere, float> closestIntersection(Scene s, glm::vec3 origin, glm::vec3 direction, float t_min, float t_max);
 
-// compute the intensity of the lighting at an intersection point (accounts for ambient light, 
+// compute the intensity of the lighting at an intersection point (accounts for ambient light,
 // shadows, diffuse lighting, and specular lighting)
 // parameters:
 // Scene s -- the scene containing all of the objects and lights

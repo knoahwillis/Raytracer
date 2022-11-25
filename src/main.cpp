@@ -1,4 +1,4 @@
-#include "./raytracer/Raytracer.hpp"
+#include "Raytracer.hpp"
 #include <memory>
 
 int main(int argc, char* argv[]) {
@@ -13,8 +13,8 @@ int main(int argc, char* argv[]) {
   raytracer->insertLight((Light(POINT, 0.6, glm::vec3(2.0f, 1.0f, 0.0f))));
   raytracer->insertLight((Light(DIRECTIONAL, 0.2, glm::vec3(1.0f, 4.0f, 4.0f))));
 
-  while(raytracer->running()) {
+  while (raytracer->running()) {
     raytracer->render();
-  } 
+  }
   return 0;
-} 
+}

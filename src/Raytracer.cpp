@@ -21,26 +21,6 @@ void Raytracer::insertLight(Light l) { scene.addLight(l); }
 
 void Raytracer::insertSphere(Sphere s) { scene.addSphere(s); }
 
-void Raytracer::loop() {
-  while (!closed) {
-    SDL_Event e;
-    while (SDL_PollEvent(&e)) {
-      switch (e.type) {
-      case SDL_QUIT:
-        closed = true;
-        break;
-      case SDL_KEYDOWN:
-        switch (e.key.keysym.scancode) {
-        case SDL_SCANCODE_ESCAPE:
-          closed = true;
-          break;
-        }
-        break;
-      }
-    }
-  }
-}
-
 void Raytracer::raytrace() {
   for (int j = -height / 2; j < height / 2; j++) {
     for (int i = -width / 2; i < width / 2; i++) {
@@ -58,7 +38,23 @@ void Raytracer::render() {
     SDL_RenderClear(rend);
     raytrace();
     SDL_RenderPresent(rend);
-    loop();
+    while (!closed) {
+      SDL_Event e;
+      while (SDL_PollEvent(&e)) {
+        switch (e.type) {
+        case SDL_QUIT:
+          closed = true;
+          break;
+        case SDL_KEYDOWN:
+          switch (e.key.keysym.scancode) {
+          case SDL_SCANCODE_ESCAPE:
+            closed = true;
+            break;
+          }
+          break;
+        }
+      }
+    }
   }
 }
 

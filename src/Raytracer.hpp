@@ -1,8 +1,8 @@
 #pragma once
 #include "./math/Math.hpp"
 
-class Raytracer{
-protected:
+class Raytracer {
+  protected:
   int width;
   int height;
   SDL_Window* window;
@@ -11,13 +11,14 @@ protected:
   Canvas canvas;
   Scene scene;
   glm::vec3 Origin;
-public:
+
+  public:
   Raytracer(int w, int h);
   ~Raytracer();
-public:
+
+  public:
   void insertLight(Light l);
   void insertSphere(Sphere s);
-  void loop();
   void raytrace();
   void render();
   bool running();

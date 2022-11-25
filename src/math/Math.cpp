@@ -1,6 +1,5 @@
 #include "Math.hpp"
 
-
 // compute the reflection of a ray
 glm::vec3 reflectRay(glm::vec3 ray, glm::vec3 norm) { return 2 * glm::dot(norm, ray) * norm - ray; }
 
@@ -42,7 +41,7 @@ std::pair<Sphere, float> closestIntersection(Scene s, glm::vec3 origin, glm::vec
   return std::make_pair(closest_sphere, closest_t);
 }
 
-// compute the intensity of the lighting at an intersection point (accounts for ambient light, 
+// compute the intensity of the lighting at an intersection point (accounts for ambient light,
 // shadows, diffuse lighting, and specular lighting)
 float computeLighting(Scene s, glm::vec3 intersectionPoint, glm::vec3 intersectionNorm, glm::vec3 V, float spec) {
   float i = 0;
