@@ -25,9 +25,9 @@ class Sphere {
     m_vecColor = color;
   }
   ~Sphere() {}
-  glm::vec3 vec_getCenter() { return m_vecCenter; }
-  glm::vec3 vec_getColor() { return m_vecColor; }
-  float f_getRadius() { return m_fRadius; }
-  float f_getSpecular() { return m_fSpecular; }
-  float f_getReflective() { return m_fReflective; }
+  glm::vec3 getCenter() { return m_vecCenter; }
+  glm::vec3 getColor() { return m_vecColor; }
+  float getRadius() { return m_fRadius; }
+  float getSpecular() { return m_fSpecular; }
+  float getReflective() { return m_fReflective; }
 };

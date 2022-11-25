@@ -12,6 +12,6 @@ class Canvas {
   ~Canvas() {}
 
   public:
-  glm::vec3 vec_canvasToViewpoint(glm::ivec2 pos); // translate a point on the canvas to a point on the viewpoint (2D -> 3D)
-  glm::ivec2 vec_canasToScreen(glm::ivec2 pos);    // translate a point from canvas coordinates to screen coordinates
+  glm::vec3 canvasToViewpoint(glm::ivec2 pos); // translate a point on the canvas to a point on the viewpoint (2D -> 3D)
+  glm::ivec2 canasToScreen(glm::ivec2 pos);    // translate a point from canvas coordinates to screen coordinates
 };

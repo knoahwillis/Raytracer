@@ -24,10 +24,10 @@ void Raytracer::insertSphere(Sphere s) { scene.addSphere(s); }
 void Raytracer::raytrace() {
   for (int j = -height / 2; j < height / 2; j++) {
     for (int i = -width / 2; i < width / 2; i++) {
-      glm::vec3 Direction = canvas.vec_canvasToViewpoint(glm::ivec2(i, j));
+      glm::vec3 Direction = canvas.canvasToViewpoint(glm::ivec2(i, j));
       glm::vec3 color = traceRay(scene, Origin, Direction, 1.0f, MAXFLOAT, 1);
       SDL_SetRenderDrawColor(rend, color.r, color.g, color.b, 0);
-      glm::ivec2 screenPoint = canvas.vec_canasToScreen(glm::ivec2(i, j));
+      glm::ivec2 screenPoint = canvas.canasToScreen(glm::ivec2(i, j));
       SDL_RenderDrawPoint(rend, screenPoint.x, screenPoint.y);
     }
   }
@@ -49,6 +49,19 @@ void Raytracer::render() {
           switch (e.key.keysym.scancode) {
           case SDL_SCANCODE_ESCAPE:
             closed = true;
+            break;
+          case SDL_SCANCODE_W:
+
+            break;
+          case SDL_SCANCODE_S:
+            break;
+          case SDL_SCANCODE_D:
+            break;
+          case SDL_SCANCODE_A:
+            break;
+          case SDL_SCANCODE_E:
+            break;
+          case SDL_SCANCODE_Q:
             break;
           }
           break;
