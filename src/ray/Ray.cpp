@@ -1,15 +1,22 @@
-#include "Math.hpp"
+#include "Ray.hpp"
 
-// compute the reflection of a ray
-glm::vec3 reflectRay(glm::vec3 ray, glm::vec3 norm) { return 2 * glm::dot(norm, ray) * norm - ray; }
+Ray::Ray(glm::vec3 origin, glm::vec3 direction) {
+  m_origin = origin;
+  m_direction = direction;
+}
 
-// figures out if a ray intersects with a given sphere
-glm::vec2 sphereRayIntersection(glm::vec3 origin, glm::vec3 direction, Sphere s) {
+Ray::~Ray() {}
+
+glm::vec3 Ray::reflectRay(glm::vec3 norm) {
+  return 2 * glm::dot(norm, m_direction) * norm - m_direction;
+}
+
+glm::vec2 Ray::sphereRayIntersection(Sphere s) {
   float r = s.getRadius();
-  glm::vec3 CO = origin - s.getCenter();
+  glm::vec3 CO = m_origin - s.getCenter();
 
-  float a = glm::dot(direction, direction);
-  float b = 2 * glm::dot(CO, direction);
+  float a = glm::dot(m_direction, m_direction);
+  float b = 2 * glm::dot(CO, m_direction);
   float c = glm::dot(CO, CO) - r * r;
 
   float discriminant = b * b - 4 * a * c;
@@ -18,17 +25,14 @@ glm::vec2 sphereRayIntersection(glm::vec3 origin, glm::vec3 direction, Sphere s)
     return glm::vec2(MAXFLOAT, MAXFLOAT);
   }
 
-  glm::vec2 ret = {(-b + sqrt(discriminant)) / (2 * a), (-b - sqrt(discriminant)) / (2 * a)};
-
-  return ret;
+  return glm::vec2((-b + sqrt(discriminant)) / (2 * a), (-b - sqrt(discriminant)) / (2 * a));
 }
 
-// finds the closest sphere that a given ray intersects with as well as the distance
-std::pair<Sphere, float> closestIntersection(Scene s, glm::vec3 origin, glm::vec3 direction, float t_min, float t_max) {
+std::pair<Sphere, float> Ray::closestIntersection(Scene sc, float t_min, float t_max) {
   float closest_t = MAXFLOAT;
   Sphere closest_sphere;
-  for (auto& s : s.Spheres) {
-    glm::vec2 vec_t = sphereRayIntersection(origin, direction, s);
+  for (auto& s : sc.Spheres) {
+    glm::vec2 vec_t = this->sphereRayIntersection(s);
     if (vec_t.x >= t_min && vec_t.x <= t_max && vec_t.x < closest_t) {
       closest_t = vec_t.x;
       closest_sphere = s;
@@ -41,9 +45,7 @@ std::pair<Sphere, float> closestIntersection(Scene s, glm::vec3 origin, glm::vec
   return std::make_pair(closest_sphere, closest_t);
 }
 
-// compute the intensity of the lighting at an intersection point (accounts for ambient light,
-// shadows, diffuse lighting, and specular lighting)
-float computeLighting(Scene s, glm::vec3 intersectionPoint, glm::vec3 intersectionNorm, glm::vec3 V, float spec) {
+float Ray::computeLighting(Scene s, glm::vec3 intersectionPoint, glm::vec3 intersectionNorm, glm::vec3 V, float spec) {
   float i = 0;
   float t_max;
   glm::vec3 L;
@@ -61,7 +63,7 @@ float computeLighting(Scene s, glm::vec3 intersectionPoint, glm::vec3 intersecti
     }
 
     // shadow check
-    std::pair<Sphere, float> p_shadow = closestIntersection(s, intersectionPoint, L, .001, t_max);
+    std::pair<Sphere, float> p_shadow = Ray(intersectionPoint, L).closestIntersection(s, .001f, t_max);
     if (p_shadow.first.getRadius() > -1) {
       return i;
     }
@@ -82,18 +84,16 @@ float computeLighting(Scene s, glm::vec3 intersectionPoint, glm::vec3 intersecti
   return i;
 }
 
-// function that makes everything work. traces a ray, finds intersections, and calculates
-// the color at the given point
-glm::vec3 traceRay(Scene s, glm::vec3 origin, glm::vec3 direction, float t_min, float t_max, int reflectRecurse) {
-  std::pair<Sphere, float> p_closestSphereFloat = closestIntersection(s, origin, direction, t_min, t_max);
+glm::vec3 Ray::traceRay(Scene s, float t_min, float t_max, int reflectRecurse) {
+  std::pair<Sphere, float> p_closestSphereFloat = this->closestIntersection(s, t_min, t_max);
   if (p_closestSphereFloat.first.getRadius() == -1) {
     return glm::vec3(255, 255, 255);
   }
 
-  glm::vec3 P = origin + p_closestSphereFloat.second * direction;
+  glm::vec3 P = m_origin + p_closestSphereFloat.second * m_direction;
   glm::vec3 N = glm::normalize(P - p_closestSphereFloat.first.getCenter());
 
-  glm::vec3 color = p_closestSphereFloat.first.getColor() * computeLighting(s, P, N, -direction, p_closestSphereFloat.first.getSpecular());
+  glm::vec3 color = p_closestSphereFloat.first.getColor() * computeLighting(s, P, N, -m_direction, p_closestSphereFloat.first.getSpecular());
 
   float r = p_closestSphereFloat.first.getReflective();
   if (r <= 0 || reflectRecurse <= 0) {
@@ -108,8 +108,8 @@ glm::vec3 traceRay(Scene s, glm::vec3 origin, glm::vec3 direction, float t_min, 
     }
     return color;
   }
-  glm::vec3 R = reflectRay(-direction, N);
-  glm::vec3 reflectedColor = traceRay(s, P, R, 0.001f, MAXFLOAT, reflectRecurse - 1);
+  glm::vec3 R = Ray(m_origin, -m_direction).reflectRay(N);
+  glm::vec3 reflectedColor = Ray(P, R).traceRay(s, 0.001f, MAXFLOAT, reflectRecurse - 1);
 
   glm::vec3 retColor = color * (1 - r) + reflectedColor * r;
   if (retColor.x > 255) {

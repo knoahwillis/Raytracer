@@ -38,3 +38,5 @@ Raytracer
 *.swp
 vgcore.*
 todo
+
+Math.hpp

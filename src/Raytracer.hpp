@@ -1,5 +1,5 @@
 #pragma once
-#include "./math/Math.hpp"
+#include "./ray/Ray.hpp"
 
 class Raytracer {
   protected:
@@ -15,11 +15,8 @@ class Raytracer {
   public:
   Raytracer(int w, int h);
   ~Raytracer();
-
-  public:
   void insertLight(Light l);
   void insertSphere(Sphere s);
-  void raytrace();
   void render();
   bool running();
 };
