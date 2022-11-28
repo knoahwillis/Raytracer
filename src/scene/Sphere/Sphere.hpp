@@ -1,15 +1,6 @@
 #pragma once
 #include <glm/vec3.hpp>
 
-class Shapes {
-  protected:
-  float m_fSpecular;
-  float m_fReflective;
-  glm::ivec3 m_vecColor;
-
-  public:
-};
-
 class Sphere {
   protected:
   float m_fRadius;
