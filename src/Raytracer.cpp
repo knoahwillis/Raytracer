@@ -29,7 +29,7 @@ void Raytracer::render() {
         glm::vec3 Direction = canvas.canvasToViewpoint(glm::ivec2(i, j));
         glm::vec3 color = Ray(Origin, Direction).traceRay(scene, 1.0f, MAXFLOAT, 1);
         SDL_SetRenderDrawColor(rend, color.r, color.g, color.b, 0);
-        glm::ivec2 screenPoint = canvas.canasToScreen(glm::ivec2(i, j));
+        glm::ivec2 screenPoint = canvas.canvasToScreen(glm::ivec2(i, j));
         SDL_RenderDrawPoint(rend, screenPoint.x, screenPoint.y);
       }
     }

@@ -11,4 +11,4 @@ glm::vec3 Canvas::canvasToViewpoint(glm::ivec2 pos) {
   return glm::vec3(pos.x * (m_vecViewpoint.x / m_vecCanvasDim.x), pos.y * (m_vecViewpoint.y / m_vecCanvasDim.y), 1.0f);
 }
 
-glm::ivec2 Canvas::canasToScreen(glm::ivec2 pos) { return glm::ivec2((m_vecCanvasDim.x / 2) + pos.x, (m_vecCanvasDim.y / 2) - pos.y); }
+glm::ivec2 Canvas::canvasToScreen(glm::ivec2 pos) { return glm::ivec2((m_vecCanvasDim.x / 2) + pos.x, (m_vecCanvasDim.y / 2) - pos.y); }
