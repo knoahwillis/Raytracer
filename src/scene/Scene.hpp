@@ -1,7 +1,7 @@
 #pragma once
 #include "./canvas/Canvas.hpp"
 #include "./lights/Lights.hpp"
-#include "./shapes/Sphere.hpp"
+#include "./Sphere/Sphere.hpp"
 #include <SDL2/SDL.h>
 #include <glm/geometric.hpp>
 #include <utility>

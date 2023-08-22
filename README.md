@@ -15,6 +15,10 @@ A Blinn-Phong shaded ray-tracer written in C++
 - Refractions
 - Sphere geometry
 
+## Example Image
+
+![example image](./assets/exampleimage.png)
+
 ## In Progress
 
 - Triangle geometry
